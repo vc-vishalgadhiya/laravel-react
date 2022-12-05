@@ -9,7 +9,9 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     const user = usePage().props.auth.user;
 
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
-        name: user.name,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        date_of_birth: user.date_of_birth,
         email: user.email,
     });
 
@@ -31,19 +33,49 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
 
             <form onSubmit={submit} className="mt-6 space-y-6">
                 <div>
-                    <InputLabel for="name" value="Name" />
+                    <InputLabel for="first_name" value="First Name" />
 
                     <TextInput
-                        id="name"
+                        id="first_name"
                         className="mt-1 block w-full"
-                        value={data.name}
-                        handleChange={(e) => setData('name', e.target.value)}
-                        required
+                        value={data.first_name}
+                        handleChange={(e) => setData('first_name', e.target.value)}
                         autofocus
-                        autocomplete="name"
+                        autocomplete="first_name"
                     />
 
-                    <InputError className="mt-2" message={errors.name} />
+                    <InputError className="mt-2" message={errors.first_name} />
+                </div>
+
+                <div>
+                    <InputLabel for="last_name" value="Last Name" />
+
+                    <TextInput
+                        id="last_name"
+                        className="mt-1 block w-full"
+                        value={data.last_name}
+                        handleChange={(e) => setData('last_name', e.target.value)}
+                        autofocus
+                        autocomplete="last_name"
+                    />
+
+                    <InputError className="mt-2" message={errors.last_name} />
+                </div>
+
+                <div>
+                    <InputLabel for="date_of_birth" value="Date of Birth" />
+
+                    <TextInput
+                        type='date'
+                        id="date_of_birth"
+                        className="mt-1 block w-full"
+                        value={data.date_of_birth}
+                        handleChange={(e) => setData('date_of_birth', e.target.value)}
+                        autofocus
+                        autocomplete="date_of_birth"
+                    />
+
+                    <InputError className="mt-2" message={errors.date_of_birth} />
                 </div>
 
                 <div>
@@ -55,7 +87,6 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         className="mt-1 block w-full"
                         value={data.email}
                         handleChange={(e) => setData('email', e.target.value)}
-                        required
                         autocomplete="email"
                     />
 

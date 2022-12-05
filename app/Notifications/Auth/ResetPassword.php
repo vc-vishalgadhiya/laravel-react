@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Lang;
 
-class ResetPassword extends Notification
+class ResetPassword extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -17,7 +17,7 @@ class ResetPassword extends Notification
      *
      * @var string
      */
-    public $token;
+    public string $token;
 
     /**
      * The callback that should be used to create the reset password URL.
