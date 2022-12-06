@@ -36,11 +36,8 @@ export default function Edit({ auth }) {
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                             <div className="p-6 text-gray-900">
                                 <div className="space-y-6 sm:space-y-5">
-                                    <div>
-                                        <h1 className="text-xl font-semibold text-gray-900">Add User</h1>
-                                    </div>
                                     <div className="space-y-6 sm:space-y-5">
-                                        <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+                                        <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4">
                                             <InputLabel forInput="first_name" value="First Name" className="sm:mt-px sm:pt-2" />
 
                                             <TextInput
@@ -65,7 +62,6 @@ export default function Edit({ auth }) {
                                                 value={data.last_name}
                                                 className="mt-1 block w-full"
                                                 autoComplete="last_name"
-                                                isFocused={true}
                                                 handleChange={onHandleChange}
                                             />
 
@@ -73,7 +69,7 @@ export default function Edit({ auth }) {
                                         </div>
 
                                         <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                                            <InputLabel forInput="date_of_birth" value="Date of Birth" />
+                                            <InputLabel forInput="date_of_birth" value="Date of Birth" className="sm:mt-px sm:pt-2" />
 
                                             <TextInput
                                                 type='date'
@@ -82,7 +78,6 @@ export default function Edit({ auth }) {
                                                 value={data.date_of_birth}
                                                 className="mt-1 block w-full"
                                                 autoComplete="date_of_birth"
-                                                isFocused={true}
                                                 handleChange={onHandleChange}
                                             />
 
@@ -90,7 +85,7 @@ export default function Edit({ auth }) {
                                         </div>
 
                                         <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                                            <InputLabel forInput="email" value="Email" />
+                                            <InputLabel forInput="email" value="Email" className="sm:mt-px sm:pt-2" />
 
                                             <TextInput
                                                 id="email"
@@ -106,7 +101,7 @@ export default function Edit({ auth }) {
                                         </div>
 
                                         <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                                            <InputLabel forInput="password" value="Password" />
+                                            <InputLabel forInput="password" value="Password" className="sm:mt-px sm:pt-2" />
 
                                             <TextInput
                                                 id="password"
@@ -120,19 +115,23 @@ export default function Edit({ auth }) {
 
                                             <InputError message={errors.password} className="mt-1" />
                                         </div>
+                                        <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+                                            <div className="pt-5">
+                                                <div className="flex">
+                                                    <button type="submit"
+                                                        className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Save
+                                                    </button>
+                                                    <Link
+                                                        href={route('frontend.users.index')}
+                                                        className="ml-3 rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Cancel
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                     </div>
                                 </div>
-                                <div className="pt-5">
-                                    <div className="flex justify-end">
-                                        <button type="button"
-                                                className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Cancel
-                                        </button>
-                                        <button type="submit"
-                                                className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Save
-                                        </button>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
                     </div>

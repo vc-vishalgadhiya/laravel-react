@@ -3,8 +3,14 @@
 namespace App\Http\Controllers\Frontend\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Frontend\User\StoreRequest;
+use App\Http\Requests\Frontend\User\UpdateRequest;
+use App\Models\User\User;
 use App\Repositories\UserRepository;
-use Illuminate\Http\Request;
+use Exception;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -42,12 +48,20 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return Response
+     * @param StoreRequest $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request): RedirectResponse
     {
-        //
+        try {
+            $this->userRepository->store($request);
+
+            return Redirect::route('frontend.users.index')->withSuccess('User Created Successfully.');
+        } catch (Exception $exception) {
+            Log::error($exception);
+
+            return Redirect::back()->withError('Something went wrong please try again.');
+        }
     }
 
     /**
@@ -64,34 +78,52 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param User $user
      * @return Response
      */
-    public function edit($id)
+    public function edit(User $user): Response
     {
-        //
+        return Inertia::render('Frontend/Users/Edit', [
+            'user' => $user
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return Response
+     * @param UpdateRequest $request
+     * @param User $user
+     * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, User $user): RedirectResponse
     {
-        //
+        try {
+            $this->userRepository->update($user, $request);
+
+            return Redirect::route('frontend.users.index')->withSuccess('User Updated Successfully.');
+        } catch (Exception $exception) {
+            Log::error($exception);
+
+            return Redirect::back()->withError('Something went wrong please try again.');
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return Response
+     * @param User $user
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(User $user): RedirectResponse
     {
-        //
+        try {
+            $this->userRepository->delete($user);
+
+            return Redirect::route('frontend.users.index')->withSuccess('User Deleted Successfully.');
+        } catch (Exception $exception) {
+            Log::error($exception);
+
+            return Redirect::back()->withError('Something went wrong please try again.');
+        }
     }
 }

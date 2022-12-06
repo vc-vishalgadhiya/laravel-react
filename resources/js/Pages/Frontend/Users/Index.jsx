@@ -16,7 +16,6 @@ export default function Edit({ auth, users }) {
                             <div className="px-4 sm:px-6 lg:px-8">
                                 <div className="sm:flex sm:items-center">
                                     <div className="sm:flex-auto">
-                                        <h1 className="text-xl font-semibold text-gray-900">Users</h1>
                                         {/*<p className="mt-2 text-sm text-gray-700">
                                             A list of all the users in your account including their name, title, email and role.
                                         </p>*/}
@@ -64,9 +63,18 @@ export default function Edit({ auth, users }) {
                                                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{user.email}</td>
                                                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{user.date_of_birth}</td>
                                                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                                                <a href="#" className="text-indigo-600 hover:text-indigo-900">
+                                                                <Link
+                                                                    href={route('frontend.users.edit', user)}
+                                                                    className="text-indigo-600 hover:text-indigo-900"
+                                                                >
                                                                     Edit<span className="sr-only">, Edit</span>
-                                                                </a>
+                                                                </Link>
+                                                                <Link
+                                                                    href={route('frontend.users.edit', user)}
+                                                                    className="text-red-600 hover:text-red-900 ml-2"
+                                                                >
+                                                                    Delete<span className="sr-only">, Delete</span>
+                                                                </Link>
                                                             </td>
                                                         </tr>
                                                     ))}
