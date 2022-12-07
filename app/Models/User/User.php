@@ -2,8 +2,8 @@
 
 namespace App\Models\User;
 
-use App\Notifications\Auth\ResetPassword;
-use App\Notifications\Auth\VerifyEmail;
+use App\Models\User\Traits\Method\UserMethod;
+use App\Models\User\Traits\Relationship\UserRelationship;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -16,7 +16,9 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens,
         HasFactory,
         Notifiable,
-        SoftDeletes;
+        SoftDeletes,
+        UserRelationship,
+        UserMethod;
 
     /**
      * The attributes that are mass assignable.
@@ -49,25 +51,4 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    /**
-     * Send the password reset notification.
-     *
-     * @param  string  $token
-     * @return void
-     */
-    public function sendPasswordResetNotification($token): void
-    {
-        $this->notify(new ResetPassword($token));
-    }
-
-    /**
-     * Send the email verification notification.
-     *
-     * @return void
-     */
-    public function sendEmailVerificationNotification(): void
-    {
-        $this->notify(new VerifyEmail);
-    }
 }
