@@ -1,7 +1,14 @@
 import AuthenticatedLayout from '@/Layouts/Frontend/AuthenticatedLayout';
-import { Head, Link } from '@inertiajs/inertia-react';
+import {Head, Link, useForm} from '@inertiajs/inertia-react';
+import {Inertia} from "@inertiajs/inertia";
 
 export default function Edit({ auth, users }) {
+    const destroy = (user, e) => {
+        if (confirm("Are you sure you want to delete this user?")) {
+            Inertia.delete(route("frontend.users.destroy", user));
+        }
+    };
+
     return (
         <AuthenticatedLayout
             auth={auth}
@@ -69,12 +76,12 @@ export default function Edit({ auth, users }) {
                                                                 >
                                                                     Edit<span className="sr-only">, Edit</span>
                                                                 </Link>
-                                                                <Link
-                                                                    href={route('frontend.users.edit', user)}
+                                                                <button
+                                                                    onClick={(e) => destroy(user, e)}
                                                                     className="text-red-600 hover:text-red-900 ml-2"
                                                                 >
                                                                     Delete<span className="sr-only">, Delete</span>
-                                                                </Link>
+                                                                </button>
                                                             </td>
                                                         </tr>
                                                     ))}

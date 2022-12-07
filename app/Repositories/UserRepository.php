@@ -14,7 +14,7 @@ class UserRepository
      */
     public function get(): Collection
     {
-        return User::latest()->get();
+        return User::where('id', '!=', auth()->id())->latest()->get();
     }
 
     /**
