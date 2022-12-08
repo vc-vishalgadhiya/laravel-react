@@ -5,6 +5,7 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/inertia-react';
+import { GoogleReCaptchaProvider, GoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -14,6 +15,7 @@ export default function Register() {
         email: '',
         password: '',
         password_confirmation: '',
+        g_recaptcha: ''
     });
 
     useEffect(() => {
@@ -24,6 +26,10 @@ export default function Register() {
 
     const onHandleChange = (event) => {
         setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
+    };
+
+    const handleVerify = (value) => {
+        data.g_recaptcha = value;
     };
 
     const submit = (e) => {
@@ -62,7 +68,6 @@ export default function Register() {
                         value={data.last_name}
                         className="mt-1 block w-full"
                         autoComplete="last_name"
-                        isFocused={true}
                         handleChange={onHandleChange}
                     />
 
@@ -79,7 +84,6 @@ export default function Register() {
                         value={data.date_of_birth}
                         className="mt-1 block w-full"
                         autoComplete="date_of_birth"
-                        isFocused={true}
                         handleChange={onHandleChange}
                     />
 
@@ -132,6 +136,11 @@ export default function Register() {
 
                     <InputError message={errors.password_confirmation} className="mt-1" />
                 </div>
+
+                <GoogleReCaptchaProvider reCaptchaKey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}>
+                    <GoogleReCaptcha onVerify={handleVerify} />
+                </GoogleReCaptchaProvider>
+
 
                 <div className="flex items-center justify-end mt-4">
                     <Link
