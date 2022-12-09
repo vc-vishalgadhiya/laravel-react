@@ -1,26 +1,27 @@
 <?php
 
-namespace App\Http\Controllers\Frontend\User;
+namespace App\Http\Controllers\Frontend\Blog;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Frontend\User\StoreRequest;
-use App\Http\Requests\Frontend\User\UpdateRequest;
-use App\Models\User\User;
-use App\Repositories\UserRepository;
+use App\Http\Requests\Frontend\Blog\StoreRequest;
+use App\Http\Requests\Frontend\Blog\UpdateRequest;
+use App\Models\Blog\Blog;
+use App\Repositories\BlogRepository;
 use Exception;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class UserController extends Controller
+class BlogController extends Controller
 {
     /**
-     * @param UserRepository $userRepository
+     * @param BlogRepository $blogRepository
      */
     public function __construct(
-        private readonly UserRepository $userRepository
+        private readonly BlogRepository $blogRepository
     ) {}
 
     /**
@@ -30,8 +31,8 @@ class UserController extends Controller
      */
     public function index(): Response
     {
-        return Inertia::render('Frontend/Users/Index', [
-            'users' => $this->userRepository->get()
+        return Inertia::render('Frontend/Blogs/Index', [
+            'blogs' => $this->blogRepository->get(auth()->user())
         ]);
     }
 
@@ -42,7 +43,7 @@ class UserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Frontend/Users/Create');
+        return Inertia::render('Frontend/Blogs/Create');
     }
 
     /**
@@ -54,9 +55,9 @@ class UserController extends Controller
     public function store(StoreRequest $request): RedirectResponse
     {
         try {
-            $this->userRepository->store($request);
+            $this->blogRepository->store(auth()->user(), $request);
 
-            return Redirect::route('frontend.users.index')->withSuccess('User Created Successfully.');
+            return Redirect::route('frontend.blogs.index')->withSuccess('Blog Created Successfully.');
         } catch (Exception $exception) {
             Log::error($exception);
 
@@ -68,7 +69,7 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -78,13 +79,13 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param User $user
+     * @param Blog $blog
      * @return Response
      */
-    public function edit(User $user): Response
+    public function edit(Blog $blog): Response
     {
-        return Inertia::render('Frontend/Users/Edit', [
-            'user' => $user
+        return Inertia::render('Frontend/Blogs/Edit', [
+            'blog' => $blog
         ]);
     }
 
@@ -92,15 +93,15 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param UpdateRequest $request
-     * @param User $user
+     * @param Blog $blog
      * @return RedirectResponse
      */
-    public function update(UpdateRequest $request, User $user): RedirectResponse
+    public function update(UpdateRequest $request, Blog $blog): RedirectResponse
     {
         try {
-            $this->userRepository->update($user, $request);
+            $this->blogRepository->update(auth()->user(), $blog, $request);
 
-            return Redirect::route('frontend.users.index')->withSuccess('User Updated Successfully.');
+            return Redirect::route('frontend.blogs.index')->withSuccess('Blog Updated Successfully.');
         } catch (Exception $exception) {
             Log::error($exception);
 
@@ -111,15 +112,15 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param User $user
+     * @param Blog $blog
      * @return RedirectResponse
      */
-    public function destroy(User $user): RedirectResponse
+    public function destroy(Blog $blog): RedirectResponse
     {
         try {
-            $this->userRepository->delete($user);
+            $this->blogRepository->delete($blog);
 
-            return Redirect::route('frontend.users.index')->withSuccess('User Deleted Successfully.');
+            return Redirect::route('frontend.blogs.index')->withSuccess('Blog Deleted Successfully.');
         } catch (Exception $exception) {
             Log::error($exception);
 
